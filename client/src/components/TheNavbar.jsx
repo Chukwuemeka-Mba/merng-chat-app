@@ -1,14 +1,12 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/auth";
 
 function TheNavbar() {
   const { user, logout } = useContext(AuthContext);
-  const pathname = window.location.pathname;
+  // const pathname = window.location.pathname;
 
-  // const path = pathname === "/" ? "home" : pathname.substr(1);
-  // const [activeItem, setActiveItem] = useState(path);
   return (
     <div>
       {user ? (
@@ -25,7 +23,6 @@ function TheNavbar() {
             <Link to="/login">Login</Link>
             <Link to="/register">Register</Link>
           </div>
-          {console.log(user)}
         </NavContainer>
       )}
     </div>
