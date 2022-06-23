@@ -12,3 +12,14 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+li {
+  list-style-type: none;
+}
+
+.error {
+  background-color: rgb(210, 142, 142);
+  border-radius: 5px;
+  margin: 15px;
+  width: 200px;
+}

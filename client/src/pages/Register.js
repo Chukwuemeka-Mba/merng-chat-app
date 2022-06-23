@@ -2,35 +2,34 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
+import { useForm } from "../util/hooks";
 
-function Register() {
+function Register(props) {
   const [errors, setErrors] = useState({});
-  const [values, setValues] = useState({
-    userName: "",
+
+  const { handleChange, handleSubmit, values } = useForm(registerUser, {
+    username: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
-  const handleChange = (event) => {
-    setValues({ ...values, [event.target.name]: event.target.value });
-  };
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    addUser();
-    console.log("This form has been submitted", values);
-  };
+
   const [addUser, { loading }] = useMutation(REGISTER_USER, {
-    update(proxy, result) {
-      console.log(result);
+    update(_, result) {
+      props.history.push("/login");
     },
     onError(err) {
-      setErrors(err.graphQLErrors[0].extensions.exception.errors);
+      setErrors(err.graphQLErrors[0].extensions.errors);
     },
     variables: values,
   });
+
+  function registerUser() {
+    addUser();
+  }
   return (
     <RegisterContainer>
-      <h1>Register Page</h1>
+      <h1>Register User</h1>
       <RegisterForm
         onSubmit={handleSubmit}
         noValidate
@@ -39,10 +38,10 @@ function Register() {
         <div>
           <label htmlFor="name">Username</label>
           <input
-            name="userName"
+            name="username"
             type="text"
             placeholder="Enter username"
-            value={values.userName}
+            value={values.username}
             onChange={handleChange}
           />
         </div>
@@ -81,9 +80,10 @@ function Register() {
       {Object.keys(errors).length > 0 && (
         <div className="ui error message">
           <ul className="list">
-            {Object.values(errors).map((value) => (
-              <li key={value}>{value}</li>
-            ))}
+            <li>{errors.username}</li>
+            <li>{errors.email}</li>
+            <li>{errors.password}</li>
+            <li>{errors.confirmPassword}</li>
           </ul>
         </div>
       )}
