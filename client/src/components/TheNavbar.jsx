@@ -1,15 +1,34 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../context/auth";
+
 function TheNavbar() {
+  const { user, logout } = useContext(AuthContext);
+  const pathname = window.location.pathname;
+
+  // const path = pathname === "/" ? "home" : pathname.substr(1);
+  // const [activeItem, setActiveItem] = useState(path);
   return (
-    <NavContainer>
-      <Link to="/">Home</Link>
-      <div className="links">
-        <Link to="/login">Login</Link>
-        <Link to="/register">Register</Link>
-      </div>
-    </NavContainer>
+    <div>
+      {user ? (
+        <NavContainer>
+          <Link to="/">{user.username}</Link>
+          <div className="links">
+            <Link onClick={logout}>Logout</Link>
+          </div>
+        </NavContainer>
+      ) : (
+        <NavContainer>
+          <Link to="/">Home</Link>
+          <div className="links">
+            <Link to="/login">Login</Link>
+            <Link to="/register">Register</Link>
+          </div>
+          {console.log(user)}
+        </NavContainer>
+      )}
+    </div>
   );
 }
 

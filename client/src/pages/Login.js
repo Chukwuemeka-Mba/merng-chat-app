@@ -1,19 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import gql from "graphql-tag";
 import { useMutation } from "@apollo/react-hooks";
 import { useForm } from "../util/hooks";
-
+import { AuthContext } from "../context/auth";
 function Login(props) {
   const [errors, setErrors] = useState({});
-
+  const context = useContext(AuthContext);
   const { handleChange, handleSubmit, values } = useForm(loginUserCallback, {
     username: "",
     password: "",
   });
 
   const [loginUser, { loading }] = useMutation(LOGIN_USER, {
-    update(_, result) {
+    update(_, { data: { login: userData } }) {
+      context.login(userData);
       props.history.push("/");
     },
     onError(err) {
@@ -60,6 +61,7 @@ function Login(props) {
           <ul className="list">
             <li>{errors.username}</li>
             <li>{errors.password}</li>
+            <li>{errors.value}</li>
           </ul>
         </div>
       )}
