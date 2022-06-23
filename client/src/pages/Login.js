@@ -69,7 +69,7 @@ function Login(props) {
 
 const LOGIN_USER = gql`
   mutation login($username: String!, $password: String!) {
-    login(registerInput: { username: $username, password: $password }) {
+    login(username: $username, password: $password) {
       id
       username
       token
