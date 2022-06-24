@@ -13,7 +13,7 @@ function TheNavbar() {
         <NavContainer>
           <Link to="/">{user.username}</Link>
           <div className="links">
-            <Link onClick={logout}>Logout</Link>
+            <div onClick={logout}>Logout</div>
           </div>
         </NavContainer>
       ) : (

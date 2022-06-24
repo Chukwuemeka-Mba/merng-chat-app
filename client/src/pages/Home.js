@@ -1,22 +1,26 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import { Grid } from "semantic-ui-react";
-import PostCard from "../components/PostCard";
 import { FETCH_POSTS_QUERY } from "../util/graphql";
 import styled from "styled-components";
+import { AuthContext } from "../context/auth";
+
+// Components
+import PostCard from "../components/PostCard";
+import AddPost from "../components/AddPost";
+
 function Home() {
   const {
     data: { getPosts: posts },
     loading,
   } = useQuery(FETCH_POSTS_QUERY);
 
-  if (posts) {
-    console.log("Posts have loaded");
-  }
+  const { user } = useContext(AuthContext);
   return (
     <div>
       <Grid.Row className="page-title">
         <h1>Recent Posts</h1>
+        {user && <AddPost />}
       </Grid.Row>
       <GridContainer>
         {/* {user && <Grid.Column><PostForm /></Grid.Column>} */}
