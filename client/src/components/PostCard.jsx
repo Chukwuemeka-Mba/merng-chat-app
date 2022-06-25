@@ -1,17 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import moment from "moment";
 import styled from "styled-components";
-// import { AuthContext } from "../context/auth";
-// import LikeButton from "./LikeButton";
-// import DeleteButton from "./DeleteButton";
-// import MyPopup from "../util/MyPopup";
+import { AuthContext } from "../context/auth";
 
+//* Assets
+import { ThumbsUp, Trash2, MessageCircle } from "react-feather";
 function PostCard({
   post: { body, createdAt, id, username, likeCount, commentCount, likes },
 }) {
-  // const { user } = useContext(AuthContext);
-  // likePost = () => {};
-  // addComment = () => {};
+  const { user } = useContext(AuthContext);
   return (
     <CardContainer>
       <div className="top">
@@ -28,8 +25,17 @@ function PostCard({
         <p>{body}</p>
       </div>
       <div className="buttons">
-        <button>Likes: {likeCount}</button>
-        <button>Comments: {commentCount}</button>
+        <button>
+          <ThumbsUp /> {likeCount}
+        </button>
+        <a href={`/posts/${id}`}>
+          <MessageCircle />: {commentCount}
+        </a>
+        {user && user.username === username && (
+          <button>
+            <Trash2 />
+          </button>
+        )}
       </div>
     </CardContainer>
   );
@@ -60,11 +66,33 @@ const CardContainer = styled.div`
   }
   .buttons {
     display: flex;
+    align-items: center;
     gap: 10px;
-    button {
+    a {
+      text-decoration: none;
+      color: #000;
+    }
+    a {
+      display: flex;
+      align-items: center;
+      gap: 5px;
       padding: 0.5rem 1rem;
       border-radius: 5px;
       border: 1px solid black;
+      svg {
+        width: 15px;
+      }
+    }
+    button {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      border: 1px solid black;
+      svg {
+        width: 15px;
+      }
     }
   }
 `;

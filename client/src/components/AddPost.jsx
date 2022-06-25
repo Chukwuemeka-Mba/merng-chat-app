@@ -2,6 +2,7 @@ import { useMutation } from "@apollo/react-hooks";
 import React from "react";
 import styled from "styled-components";
 import { useForm } from "../util/hooks";
+import { FETCH_POSTS_QUERY } from "../util/graphql";
 import gql from "graphql-tag";
 
 function AddPost() {
@@ -10,8 +11,12 @@ function AddPost() {
   });
 
   const [createPost, { error }] = useMutation(CREATE_POST, {
-    update(_, result) {
-      console.log(result);
+    update(proxy, result) {
+      const data = proxy.readQuery({
+        query: FETCH_POSTS_QUERY,
+      });
+      data.getPosts = [result.data.createPost, ...data.getPosts];
+      proxy.writeQuery({ query: FETCH_POSTS_QUERY, data });
       values.body = " ";
     },
     variables: values,
@@ -21,7 +26,7 @@ function AddPost() {
     createPost();
   }
   return (
-    <div>
+    <>
       <h3>Add New Post</h3>
       <AddPostForm onSubmit={handleSubmit}>
         <div>
@@ -36,7 +41,15 @@ function AddPost() {
         </div>
         <button type="submit">Add Post</button>
       </AddPostForm>
-    </div>
+      {error && (
+        <div className="ui error message">
+          <ul className="list">
+            {console.log({ error })}
+            <li>{error.graphQLErrors[0].message}</li>
+          </ul>
+        </div>
+      )}
+    </>
   );
 }
 
