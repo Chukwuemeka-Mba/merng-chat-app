@@ -1,5 +1,6 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import { Container } from "semantic-ui-react";
 import "./index.css";
 import { AuthProvider } from "./context/auth";
 import AuthRoute from "./util/auth-route";
@@ -12,6 +13,7 @@ import SinglePost from "./pages/SinglePost";
 // Components
 import TheNavbar from "./components/TheNavbar";
 // App
+
 function App() {
   return (
     <AuthProvider>
@@ -19,12 +21,12 @@ function App() {
         <div>
           <TheNavbar />
         </div>
-        <Switch>
+        <Container>
           <Route exact path="/" component={Home} />
           <AuthRoute exact path="/login" component={Login} />
           <AuthRoute exact path="/Register" component={Register} />
-          <Route exact path="/posts/:id" component={SinglePost} />
-        </Switch>
+          <Route exact path="/posts/:postId" component={SinglePost} />
+        </Container>
       </Router>
     </AuthProvider>
   );

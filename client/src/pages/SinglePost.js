@@ -4,14 +4,13 @@ import gql from "graphql-tag";
 import { Card, Grid, Image, Button, Icon, Label } from "semantic-ui-react";
 import moment from "moment";
 import { AuthContext } from "../context/auth";
+import { useParams } from "react-router-dom";
 
 // components
 import LikeButton from "../components/LikeButton";
 
 function SinglePost(props) {
   const { user } = useContext(AuthContext);
-  const postId = props.match.params.postId;
-  console.log(postId);
 
   const {
     data: { getPost },
