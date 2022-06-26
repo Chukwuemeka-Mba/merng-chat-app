@@ -4,7 +4,8 @@ import styled from "styled-components";
 import { AuthContext } from "../context/auth";
 
 //* Assets
-import { ThumbsUp, Trash2, MessageCircle } from "react-feather";
+import { ThumbsUp, MessageCircle } from "react-feather";
+import DeleteButton from "./DeleteButton";
 function PostCard({
   post: { body, createdAt, id, username, likeCount, commentCount, likes },
 }) {
@@ -31,11 +32,7 @@ function PostCard({
         <a href={`/posts/${id}`}>
           <MessageCircle />: {commentCount}
         </a>
-        {user && user.username === username && (
-          <button>
-            <Trash2 />
-          </button>
-        )}
+        {user && user.username === username && <DeleteButton postId={id} />}
       </div>
     </CardContainer>
   );

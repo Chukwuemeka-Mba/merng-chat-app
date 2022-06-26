@@ -8,6 +8,7 @@ import { AuthContext } from "../context/auth";
 // Components
 import PostCard from "../components/PostCard";
 import AddPost from "../components/AddPost";
+import SinglePost from "./SinglePost";
 
 function Home() {
   const {
@@ -21,6 +22,9 @@ function Home() {
       <Grid.Row className="page-title">
         <h1>Recent Posts</h1>
         {user && <AddPost />}
+      </Grid.Row>
+      <Grid.Row>
+        <SinglePost />
       </Grid.Row>
       <GridContainer>
         {/* {user && <Grid.Column><PostForm /></Grid.Column>} */}
